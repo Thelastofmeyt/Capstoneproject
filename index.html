@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}App{% endblock %}</title>
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+  <div id="sidebar">
+    <div id="logo-container"><img id="logo" src="{{ url_for('static', filename='logo.png') }}"></div>
+    {% if current_user.is_authenticated %}
+    <div class="menu-btn"><img src="{{ url_for('static', filename='avatars/' + current_user.avatar) }}" class="icon avatar"></div>
+    {% endif %}
+    <!-- nav menu buttons -->
+    <div class="menu-btn" onclick="loadPage('dashboard')"><i class="fas fa-chart-line icon"></i><span class="label">Dashboard</span></div>
+    <div class="menu-btn" onclick="loadPage('upload')"><i class="fas fa-upload icon"></i><span class="label">Upload</span></div>
+    <div class="menu-btn" onclick="toggleTheme()"><i class="fas fa-adjust icon"></i><span class="label">Theme</span></div>
+    {% if current_user.is_authenticated %}
+    <a class="menu-btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt icon"></i><span class="label">Logout</span></a>
+    {% endif %}
+    <div class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars icon"></i><span class="label">Menu</span></div>
+  </div>
+  <div id="main">{% block content %}{% endblock %}</div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+</body>
+</html>
