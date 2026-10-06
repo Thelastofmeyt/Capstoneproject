@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Shakespeare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{ username }}!</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Dashboard</a>
+            <a href="{{ url_for('ocr_upload') }}">Upload File</a>
+            <a href="{{ url_for('my_library') }}">My Library</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <button onclick="toggleTheme()" class="theme-toggle-button">Toggle Theme</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="flashes">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </section>
+
+        <section class="dashboard-welcome-card">
+            <h2>Your Dashboard Overview</h2>
+            <p>Here you can see a summary of your activities and important information.</p>
+        </section>
+
+        <section class="last-book-section">
+            <h3>Last Added Book</h3>
+            {% if last_book %}
+                <div class="book-card">
+                    <h4>{{ last_book.title }}</h4>
+                    <p>by {{ last_book.author if last_book.author else 'Unknown' }}</p>
+                    <a href={{ url_for('my_library') }} class="button view-library-button">View All Books</a>
+                </div>
+            {% else %}
+                <p>No books added yet. <a href={{ url_for('my_library') }}>Add your first book!</a></p>
+            {% endif %}
+        </section>
+
+        <section class="chart-container">
+            <h2>Activity Chart</h2>
+            <canvas id="myChart"></canvas>
+        </section>
+
+        <section class="notifications">
+            <h2>Recent Notifications</h2>
+            <ul id="notification-list">
+                <li>Welcome to your dashboard!</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Your WebApp</p>
+    </footer>
+</body>
+</html>
