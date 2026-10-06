@@ -1,0 +1,378 @@
+/* General Body and HTML Reset */
+:root { /* Default Theme Variables (now representing Dark Theme) */
+    --primary-color: #66BB6A; /* Green */
+    --secondary-color: #81C784; /* Light Green */
+    --accent-color: #FFCA28; /* Amber */
+    --text-color: #e0e0e0; /* Light text for dark background */
+    --background-color: #2c3e50; /* Dark blue-gray background */
+    --card-background: #34495e; /* Slightly lighter dark blue-gray for cards */
+    --border-color: #4a657c;
+    --shadow-light: rgba(0, 0, 0, 0.2); /* Darker shadow for dark theme */
+    --flash-success: #4CAF50;
+    --flash-danger: #F44336;
+    --flash-info: #2196F3;
+    --flash-text: #fff;
+    --sidebar-width: 250px;
+    --sidebar-collapsed-width: 70px;
+}
+
+body.light { /* Light Theme Overrides */
+    --primary-color: #4A90E2; /* Blue */
+    --secondary-color: #50E3C2; /* Teal */
+    --accent-color: #F5A623; /* Orange */
+    --text-color: #333; /* Dark text for light background */
+    --background-color: #f4f7f6; /* Light background */
+    --card-background: #ffffff; /* White for cards */
+    --border-color: #ddd;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+    min-height: 100vh;
+}
+
+/* Header and Navigation */
+header {
+    background-color: var(--card-background);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px var(--shadow-light);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+}
+
+header nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    margin-left: 1.5rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+header nav a:hover {
+    color: var(--primary-color);
+}
+
+.theme-toggle-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 1.5rem;
+    font-size: 0.9rem;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+/* Auth Pages (Login/Register) */
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--background-color) 0%, #1a252f 100%);
+}
+
+.auth-container {
+    background: var(--card-background);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.auth-container h2 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.auth-container form input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--background-color);
+    color: var(--text-color);
+}
+
+.auth-container button {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.remember-me-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.remember-me-container input {
+    width: auto !important;
+    margin-bottom: 0 !important;
+    margin-right: 0.5rem;
+}
+
+/* Dashboard Fixes */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.dashboard-welcome-card {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border-left: 5px solid var(--primary-color);
+}
+
+/* FIX 1: Activity Graph Container */
+.chart-container {
+    background: var(--card-background);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    box-shadow: 0 4px 15px var(--shadow-light);
+    height: 400px; /* Force a fixed height */
+    position: relative; /* Necessary for Chart.js responsive sizing */
+    overflow: hidden;
+}
+
+/* OCR Upload Fixes */
+.upload-container {
+    background: var(--card-background);
+    padding: 2.5rem;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.dropzone {
+    border: 3px dashed var(--border-color);
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* FIX 2: Fitment of the cover page on upload */
+#image-preview {
+    max-width: 100%;
+    max-height: 250px; /* Constrain height */
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Keep inside the box properly */
+    border-radius: 8px;
+    margin-top: 1rem;
+    border: 1px solid var(--border-color);
+    display: block;
+}
+
+/* OCR Results Fixes */
+.ocr-results-container {
+    padding: 1rem;
+}
+
+/* FIX 3: Result Grid Fitment */
+.book-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.book-card {
+    background: var(--card-background);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure all cards in a row are same height */
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+}
+
+.book-card img {
+    width: 100%;
+    height: 380px; /* Fixed height for image consistency */
+    object-fit: cover; /* Crop to fill without stretching */
+    border-bottom: 1px solid var(--border-color);
+}
+
+.book-card-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.book-card h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.book-card p.author {
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.8;
+}
+
+.book-card p.description {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 1.5rem;
+    /* Limit lines for clean grid */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.add-btn {
+    margin-top: auto; /* Push button to bottom of card */
+}
+
+/* Sidebar Styling (Restored) */
+#sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: var(--sidebar-collapsed-width);
+    background: var(--card-background);
+    transition: width 0.3s;
+    display: flex;
+    flex-direction: column;
+    z-index: 1500;
+    overflow: hidden;
+    border-right: 1px solid var(--border-color);
+}
+
+#sidebar:hover {
+    width: var(--sidebar-width);
+}
+
+.menu-btn {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-color);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.menu-btn:hover {
+    background: rgba(102, 187, 106, 0.1);
+}
+
+.menu-btn .icon {
+    width: 24px;
+    margin-right: 20px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+/* Library Page Specifics */
+.library-container {
+    margin-top: 2rem;
+}
+
+.delete-button {
+    background-color: var(--flash-danger) !important;
+    transition: background 0.2s;
+}
+
+/* Modals */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Flash Messages */
+.flash {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+.flash.success { background: var(--flash-success); color: white; }
+.flash.danger { background: var(--flash-danger); color: white; }
+
+.hidden { display: none !important; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header { flex-direction: column; padding: 1rem; }
+    header nav { margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
+    header nav a { margin: 0.5rem; }
+    .chart-container { height: 300px; }
+}
