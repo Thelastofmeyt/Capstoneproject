@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library | Shakespeare</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Tailwind CSS for modern utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add the Socket.IO library from a CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <!-- Link to the external JavaScript file -->
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{ username }}!</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Dashboard</a>
+            <a href="{{ url_for('ocr_upload') }}">Upload File</a>
+            <a href={{ url_for('my_library') }} class="text-indigo-600 dark:text-indigo-400">My Library</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <button onclick="toggleTheme()" class="theme-toggle-button">Toggle Theme</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="flashes">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </section>
+
+        <section class="my-library-container">
+            <h3>My Books</h3>
+            {% if books %}
+                <div class="library-container">
+                    {% for book in books %}
+                        <div class="book-item bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105">
+                            {% if book.cover_image_url %}
+                                <img src="{{ book.cover_image_url }}" alt="Book Cover" class="book-cover-img w-full h-48 object-cover">
+                            {% else %}
+                                <img src="https://placehold.co/200x300/E5E7EB/4B5563?text=No+Cover" alt="No Cover Available" class="book-cover-img w-full h-48 object-cover">
+                            {% endif %}
+                            <div class="p-4">
+                                <h4 class="text-lg font-semibold truncate">{{ book.title }}</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">by {{ book.author if book.author else 'Unknown' }}</p>
+                                {% if book.isbn %}<p class="text-xs text-gray-500 dark:text-gray-500">ISBN: {{ book.isbn }}</p>{% endif %}
+                                <!-- Updated button to trigger a modal -->
+                                <button class="delete-button mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-200" data-book-id="{{ book.id }}">Delete</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>You haven't added any books yet. <a href="{{ url_for('ocr_upload') }}" class="text-blue-500 hover:underline">Add your first book!</a></p>
+            {% endif %}
+        </section>
+
+        <!-- Custom Modal for Confirmations -->
+        <div id="confirmModal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <p id="modalMessage"></p>
+                <div class="modal-actions">
+                    <button id="modalConfirmBtn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-200">Confirm</button>
+                    <button id="modalCancelBtn" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-200">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="text-center p-4 text-gray-500 dark:text-gray-400">&copy; 2023 Your WebApp</p>
+    </footer>
+</body>
+</html>
