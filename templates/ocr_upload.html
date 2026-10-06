@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR Upload | Shakespeare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{ username }}!</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Dashboard</a>
+            <a href="{{ url_for('ocr_upload') }}">Upload File</a>
+            <a href="{{ url_for('my_library') }}">My Library</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <button onclick="toggleTheme()" class="theme-toggle-button">Toggle Theme</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="flashes">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </section>
+
+        <section class="upload-container">
+            <h2>Upload a Book Cover or Page</h2>
+            <form id="uploadForm" class="ocr-upload-form" action="{{ url_for('process_ocr_image') }}" method="post" enctype="multipart/form-data">
+                <p>Drag & Drop your image here or click to select a file.</p>
+                <div class="dropzone" id="dropzone">
+                    <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-upload"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                        Drag and drop an image or click to browse
+                    </p>
+                    <input type="file" name="file" id="fileInput" class="hidden" accept="image/png, image/jpeg, image/gif, image/webp" />
+                    <img id="image-preview" class="hidden mt-4 mx-auto max-h-64" alt="Image Preview">
+                </div>
+                <!-- ADDED: Submit button to trigger the OCR process -->
+                <button type="submit" class="mt-6 w-full bg-green   -600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all shadow-lg transform hover:scale-[1.02]">Start OCR Search</button>
+                <!-- ADDED: Loading message container -->
+                <div class="loading-message hidden text-center mt-4"></div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Your WebApp</p>
+    </footer>
+</body>
+</html>
