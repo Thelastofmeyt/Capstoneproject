@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Files | Shakespeare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Removed: <script src="https://unpkg.com/lucide@latest"></script> as icons are not used in header nav -->
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{ username }}!</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Dashboard</a>
+            <a href="{{ url_for('upload') }}">Upload File</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+            <!-- Theme Toggle Button-->
+            <button onclick="toggleTheme()" style="margin-left: 1.5rem; padding: 0.5rem 1rem; background-color: var(--secondary-color); color: white; border-radius: 5px;">Toggle Theme</button>
+        </nav>
+    </header>
+
+    <main id="main">
+        <h1>Upload Files</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <section class="flashes">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </section>
+            {% endif %}
+        {% endwith %}
+        
+        <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" class="upload-form" id="uploadForm">
+            <div class="dropzone" id="dropzone">
+                <p>Drag & Drop files here or click to select</p>
+                <input type="file" name="file" id="fileInput" required>
+            </div>
+            <button type="submit"><i data-lucide="upload-cloud"></i> Upload</button>
+        </form>
+
+        {% if uploaded_file %}
+            <p>Uploaded: <strong>{{ uploaded_file }}</strong></p>
+        {% endif %}
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <!-- Removed: <script>lucide.createIcons();</script> as icons are not used in header nav -->
+</body>
+</html>
